@@ -1,9 +1,16 @@
+我已经为你把这个完整版的 App.tsx 进行了 Vite import 语法的全面改造。
+主要做了以下修改：
+ * 移除了 getImgUrl 函数，因为在 Vite 中不需要也不建议用纯字符串拼接来处理 src 下的图片。
+ * 在文件顶部添加了所有静态图片的 import（包含了背景、站台、盘子等）。
+ * 将 JSX 中所有写死的字符串路径（如 src="./assets/..."）替换为导入的变量。
+ * 将所有 onError 备用图片也替换成了 import 进来的 plateImage 变量，彻底杜绝 404 问题。
+修改后的完整 App.tsx 代码：
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Timer, 
@@ -23,26 +30,27 @@ import {
   IngredientId, 
   IngredientState, 
   Ingredient, 
-  Recipe, 
-  Order, 
   Customer, 
   Station, 
   RECIPES, 
   INGREDIENT_DATA,
   LEVELS,
-  LevelConfig,
   CUSTOMER_IMAGES,
   CUSTOMER_COLORS
 } from './types';
 
-const MAX_CUSTOMERS = 3;
+// ==========================================
+// Vite 图片 Import 区域 (请确保路径与你的文件夹结构完全匹配)
+// ==========================================
+import bgImage from './assets/backgrounds/background.png';
+import counterWoodImage from './assets/backgrounds/counter_wood.png';
+// 根据你第一张截图，盘子在 backgrounds 文件夹下
+import plateImage from './assets/backgrounds/plate.png'; 
+import stationFryerImage from './assets/machines/station_fryer.png'; // 假设 fryer 在 machines 文件夹，如果不是请调整
+import stationGrillImage from './assets/machines/station_grill.png'; // 假设 grill 在 machines 文件夹，如果不是请调整
+import stationSauceImage from './assets/machines/station_sauce.png';
 
-// Helper to get image with fallback
-const getImgUrl = (path: string, fallback: string) => {
-  // In a real app, we'd check if the file exists. 
-  // For now, we'll return the path. If it fails, the browser shows alt text.
-  return path;
-};
+const MAX_CUSTOMERS = 3;
 
 export default function App() {
   // Game State
@@ -444,13 +452,13 @@ export default function App() {
   return (
     <div className="h-full w-full flex items-center justify-center font-sans overflow-hidden bg-stone-200 relative">
     <div className="relative w-full max-w-[430px] h-full bg-transparent overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image - 使用引入的变量 bgImage */}
       <img 
-        src="./assets/backgrounds/background.png" 
+        src={bgImage} 
         alt="" 
         className="absolute inset-0 w-full h-full object-cover object-top opacity-100 pointer-events-none"
         referrerPolicy="no-referrer"
-        onError={(e) => { (e.currentTarget as HTMLImageElement).src='./assets/backgrounds/plate.png'; }}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
       />
       
       {/* Top Bar */}
@@ -496,12 +504,13 @@ export default function App() {
                       <div className="order-bubble mb-2 translate-y-[500px] scale-95">
                         <div className="flex flex-col items-center gap-1">
                           <div className="relative w-12 h-12 flex items-center justify-center">
+                            {/* 此处的图片来源于 RECIPES 对象，必须在 types.ts 里面也用 import 处理 */}
                             <img 
                               src={RECIPES[customer.order!.recipeId].image} 
                               alt=""
                               className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]"
                               referrerPolicy="no-referrer"
-                              onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                              onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                             />
                           </div>
                           <div className="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden">
@@ -513,15 +522,14 @@ export default function App() {
                         </div>
                       </div>
                       {/* Customer Avatar */}
-                      <div 
-                        className="w-[210px] h-[210px] relative flex items-end justify-center overflow-visible translate-y-[120%]"
-                      >
-                                                <img 
+                      <div className="w-[210px] h-[210px] relative flex items-end justify-center overflow-visible translate-y-[120%]">
+                        {/* 来源于 CUSTOMER_IMAGES 对象，需在 types.ts 导入 */}
+                        <img 
                           src={customer.image} 
                           alt="Customer" 
                           className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]"
                           referrerPolicy="no-referrer"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                         />
                       </div>
                     </motion.div>
@@ -532,7 +540,14 @@ export default function App() {
           })}
         </div>
         <div className="absolute left-0 right-0 bottom-[22%] z-20 flex justify-center pointer-events-none translate-y-[220px]">
-          <img src="/assets/backgrounds/counter_wood.png" alt="table" className="w-full h-[120px] object-cover opacity-100 scale-[1.6] origin-bottom" referrerPolicy="no-referrer" onError={(e)=>(e.currentTarget.style.display='none')} />
+          {/* 使用引入的 counterWoodImage */}
+          <img 
+            src={counterWoodImage} 
+            alt="table" 
+            className="w-full h-[120px] object-cover opacity-100 scale-[1.6] origin-bottom" 
+            referrerPolicy="no-referrer" 
+            onError={(e)=>(e.currentTarget.style.display='none')} 
+          />
         </div>
 
         {/* Counter Area */}
@@ -544,10 +559,7 @@ export default function App() {
               <div 
                 key={station.id}
                 onClick={() => interactWithStation(station.id)}
-                className={`w-full h-[118px] rounded-xl border-0 flex flex-col items-center justify-center cursor-pointer transition-all relative ${!station.id.startsWith("grill") ? "scale-[1.08]" : ""}
-                  bg-transparent
-                  hover:scale-105 active:scale-95 shadow-lg
-                `}
+                className={`w-full h-[118px] rounded-xl border-0 flex flex-col items-center justify-center cursor-pointer transition-all relative ${!station.id.startsWith("grill") ? "scale-[1.08]" : ""} bg-transparent hover:scale-105 active:scale-95 shadow-lg`}
               >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-stone-400 rounded text-[10px] font-bold text-white uppercase tracking-wider">
                   {station.id.startsWith("grill") ? "GRILL" : station.id.startsWith("fryer") ? "FRYER" : station.id.startsWith("prep") ? "PREP" : "PLATE"}
@@ -571,17 +583,13 @@ export default function App() {
 
                         if (matchedRecipe) {
                           return (
-                            <motion.div 
-                              initial={{ scale: 0.8 }} 
-                              animate={{ scale: 1 }} 
-                              className="flex flex-col items-center"
-                            >
+                            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="flex flex-col items-center">
                               <div className="relative w-24 h-24 flex items-center justify-center">
-                                                                <img 
+                                <img 
                                   src={matchedRecipe.image} 
                                   className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]" 
                                   referrerPolicy="no-referrer"
-                                  onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                                 />
                               </div>
                               <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">READY</span>
@@ -593,11 +601,11 @@ export default function App() {
                           <div className="flex flex-wrap gap-1 justify-center p-2">
                             {ingredients.map((ing, i) => (
                               <div key={i} className="relative w-8 h-8 flex items-center justify-center">
-                                                                <img 
+                                <img 
                                   src={INGREDIENT_DATA[ing.id].image} 
                                   className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]" 
                                   referrerPolicy="no-referrer"
-                                  onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                                 />
                               </div>
                             ))}
@@ -608,19 +616,16 @@ export default function App() {
                   ) : (
                     <div className="flex flex-col items-center gap-2">
                       <div className="relative w-24 h-24 flex items-center justify-center">
-                                                <img 
+                        <img 
                           src={INGREDIENT_DATA[(station.content as Ingredient).id].image} 
                           className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]" 
                           referrerPolicy="no-referrer"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                         />
                       </div>
                       {(station.content as Ingredient).state === IngredientState.COOKING && (
                         <div className="w-16 h-2 bg-stone-600 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-orange-500" 
-                            style={{ width: `${(station.content as Ingredient).progress}%` }} 
-                          />
+                          <div className="h-full bg-orange-500" style={{ width: `${(station.content as Ingredient).progress}%` }} />
                         </div>
                       )}
                       {(station.content as Ingredient).state === IngredientState.COOKED && (
@@ -632,32 +637,33 @@ export default function App() {
                   <div className="opacity-100 flex flex-col items-center">
                     {station.type === 'STOVE' ? (
                       <div className="relative w-24 h-24 flex items-center justify-center">
-                                                <img 
-                          src={station.id.startsWith("fryer") ? "/assets/station_fryer.png" : "/assets/station_grill.png"} 
+                        {/* 使用引入的 station 图片 */}
+                        <img 
+                          src={station.id.startsWith("fryer") ? stationFryerImage : stationGrillImage} 
                           alt="" 
                           className="w-full h-full object-contain relative z-10 drop-shadow-[0_4px_3px_rgba(0,0,0,0.3)]" 
                           referrerPolicy="no-referrer" 
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                         />
                       </div>
                     ) : station.type === 'PREP' ? (
                       <div className="relative w-16 h-16 flex items-center justify-center">
-                                                <img 
-                          src="/assets/machines/station_sauce.png" 
+                        <img 
+                          src={stationSauceImage} 
                           alt="" 
                           className="w-full h-full object-contain relative z-10 drop-shadow-[0_4px_3px_rgba(0,0,0,0.3)]" 
                           referrerPolicy="no-referrer" 
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }} 
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }} 
                         />
                       </div>
                     ) : (
                       <div className="relative w-16 h-16 flex items-center justify-center">
                         <img 
-                          src="/assets/plate.png" 
+                          src={plateImage} 
                           alt="plate" 
                           className="w-full h-full object-contain relative z-10" 
                           referrerPolicy="no-referrer" 
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                         />
                       </div>
                     )}
@@ -677,12 +683,13 @@ export default function App() {
                   className="w-[64px] h-[74px] bg-white/92 rounded-lg border border-stone-200 shadow-sm flex flex-col items-center justify-center cursor-pointer"
                 >
                   <div className="relative w-12 h-12 flex items-center justify-center mb-1">
-                                        <img 
+                    {/* 这个数据来自 INGREDIENT_DATA，需在 types.ts 处理 */}
+                    <img 
                       src={INGREDIENT_DATA[id].image} 
                       alt="" 
                       className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]"
                       referrerPolicy="no-referrer"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                     />
                   </div>
                   <span className="text-[10px] font-bold text-stone-500 uppercase">{INGREDIENT_DATA[id].name}</span>
@@ -725,11 +732,11 @@ export default function App() {
                       if (matchedRecipe) {
                         return (
                           <div className="relative w-24 h-24 flex items-center justify-center">
-                                                        <img 
+                            <img 
                               src={matchedRecipe.image} 
                               className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]" 
                               referrerPolicy="no-referrer"
-                              onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                              onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                             />
                           </div>
                         );
@@ -737,22 +744,22 @@ export default function App() {
 
                       return ingredients.map((ing, i) => (
                         <div key={i} className="relative w-10 h-10 flex items-center justify-center">
-                                                    <img 
+                          <img 
                             src={INGREDIENT_DATA[ing.id].image} 
                             className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]" 
                             referrerPolicy="no-referrer"
-                            onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                           />
                         </div>
                       ));
                     })()
                   ) : (
                     <div className="relative w-12 h-12 flex items-center justify-center">
-                                            <img 
+                      <img 
                         src={INGREDIENT_DATA[heldItem.id].image} 
                         className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]" 
                         referrerPolicy="no-referrer"
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
                       />
                     </div>
                   )}
@@ -933,3 +940,4 @@ export default function App() {
     </div>
   );
 }
+
