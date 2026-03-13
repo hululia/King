@@ -494,7 +494,7 @@ export default function App() {
                       onClick={() => serveCustomer(slot)}
                     >
 {/* Order Bubble */}
-<div className="absolute bottom-[310px] left-1/2 -translate-x-1/2 z-30 order-bubble scale-95">
+<div className="absolute bottom-[810px] left-1/2 -translate-x-1/2 z-30 order-bubble scale-95">
   <div className="flex flex-col items-center gap-1">
     {/* 气泡背景容器 */}
     <div className="relative w-14 h-14 flex items-center justify-center bg-white/95 rounded-full p-2 shadow-xl border-2 border-stone-100">
