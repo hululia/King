@@ -494,7 +494,7 @@ export default function App() {
                       onClick={() => serveCustomer(slot)}
                     >
                       {/* Order Bubble - 绝对定位在底部3/4位置 */}
-                      <div className="order-bubble absolute bottom-3/4 left-1/2 -translate-x-1/2 scale-95 z-40">
+                      <div className="order-bubble mb-2 absolute bottom-3/5  scale-95">
                         <div className="flex flex-col items-center gap-1">
                           <div className="relative w-12 h-12 flex items-center justify-center">
                             {/* 此处的图片来源于 RECIPES 对象，必须在 types.ts 里面也用 import 处理 */}
@@ -534,7 +534,7 @@ export default function App() {
         </div>
 
         {/* Table (Counter Wood) - 绝对定位在底部2/5位置 */}
-        <div className="absolute left-0 right-0 bottom-2/5 flex justify-center pointer-events-none z-20">
+        <div className="absolute left-0 right-0 bottom-1/5 flex pointer-events-none z-20">
           {/* 使用引入的 counterWoodImage */}
           <img 
             src={counterWoodImage} 
