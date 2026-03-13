@@ -477,7 +477,7 @@ export default function App() {
 {/* Main Game Area: 改为 relative 容器，去掉所有 flex 约束 */}
       <main className="h-[calc(100vh-56px)] relative z-0 overflow-hidden">
         
-        {/* 1. Customer Area (z-10, 桌子后方) - bottom: 50% */}
+        {/* 1. Customer Area (z-10, 桌子后方) - bottom: 40% */}
         <div className="absolute left-0 right-0 bottom-[50%] h-[220px] flex justify-between px-4 items-end z-10 pointer-events-none">
           {[0, 1, 2].map(slot => {
             const customer = customers.find(c => c.slotIndex === slot);
@@ -517,7 +517,7 @@ export default function App() {
                       </div>
 
                       {/* Customer Avatar */}
-                      <div className="w-[210px] h-[210px] relative flex items-end justify-center overflow-visible">
+                      <div className="w-[190px] h-[190px] relative flex items-end justify-center overflow-visible">
                         <img 
                           src={customer.image} 
                           alt="Customer" 
@@ -535,7 +535,7 @@ export default function App() {
         </div>
 
         {/* 2. Table (z-20, 中间层) - bottom: 20% */}
-        <div className="absolute left-0 right-0 bottom-[20%] z-20 flex justify-center pointer-events-none">
+        <div className="absolute left-0 right-0 bottom-[0%] z-20 flex justify-center pointer-events-none">
           <img 
             src={counterWoodImage} 
             alt="table" 
