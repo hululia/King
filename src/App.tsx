@@ -494,7 +494,7 @@ export default function App() {
                       onClick={() => serveCustomer(slot)}
                     >
                       {/* Order Bubble */}
-                      <div className="order-bubble mb-2 translate-y-[160%] scale-95">
+                      <div className="order-bubble mb-2 translate-y-[140%] scale-95">
                         <div className="flex flex-col items-center gap-1">
                           <div className="relative w-12 h-12 flex items-center justify-center">
                             {/* 此处的图片来源于 RECIPES 对象，必须在 types.ts 里面也用 import 处理 */}
@@ -532,7 +532,7 @@ export default function App() {
             );
           })}
         </div>
-        <div className="absolute left-0 right-0 bottom-[22%] z-20 flex justify-center pointer-events-none translate-y-[220px]">
+        <div className="absolute left-0 right-0 bottom-[22%] z-20 flex justify-center pointer-events-none translate-y-[90%]">
           {/* 使用引入的 counterWoodImage */}
           <img 
             src={counterWoodImage} 
