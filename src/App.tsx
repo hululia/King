@@ -552,7 +552,7 @@ export default function App() {
               <div 
                 key={station.id}
                 onClick={() => interactWithStation(station.id)}
-                className={`w-full h-[118px] rounded-xl border-0 flex flex-col items-center justify-center cursor-pointer transition-all relative ${!station.id.startsWith("grill")  : ""} bg-transparent hover:scale-105 active:scale-95 shadow-lg`}
+                className={`w-full h-[118px] rounded-xl border-0 flex flex-col items-center justify-center cursor-pointer transition-all relative ${!station.id.startsWith("grill") ? "scale-[1.08]" : ""} bg-transparent hover:scale-105 active:scale-95 shadow-lg`}
               >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-stone-400 rounded text-[10px] font-bold text-white uppercase tracking-wider">
                   {station.id.startsWith("grill") ? "GRILL" : station.id.startsWith("fryer") ? "FRYER" : station.id.startsWith("prep") ? "PREP" : "PLATE"}
@@ -712,7 +712,7 @@ export default function App() {
             <div className="w-24 h-24 bg-emerald-100 rounded-3xl flex items-center justify-center mx-auto mb-8">
               <ChefHat className="w-12 h-12 text-emerald-600" />
             </div>
-            <h2 className="font-display text-4xl font-bold mb-4">Burger Master</h2>
+            <h2 className="font-display text-4xl font-bold mb-4">Kitchen Master</h2>
             <p className="text-stone-500 mb-8 leading-relaxed">
               Manage 20 challenging levels! Cook, assemble, and serve to become the ultimate chef.
             </p>
