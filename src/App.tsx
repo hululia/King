@@ -478,7 +478,7 @@ export default function App() {
       <main className="h-[calc(100vh-56px)] relative px-2 pt-2 pb-3 flex flex-col gap-2 z-0">
 
         {/* Customer Area */}
-        <div className="h-[30%] min-h-[220px] flex justify-between px-2 items-end">
+        <div className="h-[30%] min-h-[190px] flex justify-between px-2 items-end">
           {[0, 1, 2].map(slot => {
             const customer = customers.find(c => c.slotIndex === slot);
             return (
@@ -495,7 +495,7 @@ export default function App() {
                     >
                       {/* Order Bubble */}
                       {/* Order Bubble */}
-                       <div className="order-bubble absolute top-[30%] mb-2 scale-95">
+                       <div className="order-bubble absolute top-[100%] mb-2 scale-95">
                     {/* 移除了 mb-2 和 translate-y-[160%]，因为绝对定位下这些边距/位移无意义 */}
                       <div className="flex flex-col items-center gap-1">
                       <div className="relative w-12 h-12 flex items-center justify-center">
