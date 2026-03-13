@@ -446,11 +446,11 @@ export default function App() {
     <div className="relative w-full max-w-[430px] h-full bg-transparent overflow-hidden">
       {/* Background Image */}
       <img 
-        src="/assets/backgrounds/background.png" 
+        src="./assets/backgrounds/background.png" 
         alt="" 
         className="absolute inset-0 w-full h-full object-cover object-top opacity-100 pointer-events-none"
         referrerPolicy="no-referrer"
-        onError={(e) => { (e.currentTarget as HTMLImageElement).src='/assets/backgrounds/plate.png'; }}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).src='./assets/backgrounds/plate.png'; }}
       />
       
       {/* Top Bar */}
