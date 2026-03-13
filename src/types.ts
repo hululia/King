@@ -3,6 +3,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// ==========================================
+// 1. Vite 图片 Import 区域
+// 确保这些相对路径与你的 src/assets 文件夹内部结构完全对应
+// ==========================================
+
+// Ingredients (食材)
+import imgMeat from './assets/ingredients/meat.png';
+import imgTomato from './assets/ingredients/tomato.png';
+import imgBread from './assets/ingredients/bread.png';
+import imgLettuce from './assets/ingredients/lettuce.png';
+import imgCheese from './assets/ingredients/cheese.png';
+import imgOnion from './assets/ingredients/onion.png';
+import imgPickles from './assets/ingredients/pickles.png';
+import imgEgg from './assets/ingredients/egg.png';
+
+// Recipes (食谱)
+import imgRecipeBurger from './assets/recipes/recipe_burger.png';
+import imgRecipeCheeseburger from './assets/ingredients/recipe_cheeseburger.png'; // 注意：这里你原代码写的是 ingredients 文件夹
+import imgRecipeSalad from './assets/recipes/recipe_salad.png';
+import imgRecipeEggSandwich from './assets/recipes/sandwich.png';
+import imgRecipeDeluxeBurger from './assets/recipes/recipe_deluxe_burger.png';
+
+// Customers (顾客)
+import imgCustomer1 from './assets/customers/customer_1.png';
+import imgCustomer2 from './assets/customers/customer_2.png';
+import imgCustomer3 from './assets/customers/customer_3.png';
+import imgCustomer4 from './assets/customers/customer_4.png';
+import imgCustomer5 from './assets/customers/customer_5.png';
+import imgCustomer6 from './assets/customers/customer_6.png';
+
+
+// ==========================================
+// 2. 类型定义与游戏数据
+// ==========================================
+
 export type IngredientId = 'meat' | 'tomato' | 'bread' | 'lettuce' | 'cheese' | 'onion' | 'pickles' | 'egg';
 
 export enum IngredientState {
@@ -62,14 +97,14 @@ export interface LevelConfig {
 }
 
 export const INGREDIENT_DATA: Record<IngredientId, { name: string; cookTime: number; image: string }> = {
-  'meat': { name: 'Meat', cookTime: 5, image: '/assets/ingredients/meat.png'},
-  'tomato': { name: 'Tomato', cookTime: 2, image: '/assets/ingredients/tomato.png'},
-  'bread': { name: 'Bread', cookTime: 0, image: '/assets/ingredients/bread.png' },
-  'lettuce': { name: 'Lettuce', cookTime: 0, image: '/assets/ingredients/lettuce.png' },
-  'cheese': { name: 'Cheese', cookTime: 0, image: '/assets/ingredients/cheese.png' },
-  'onion': { name: 'Onion', cookTime: 2, image: '/assets/ingredients/onion.png' },
-  'pickles': { name: 'Pickles', cookTime: 0, image: '/assets/ingredients/pickles.png' },
-  'egg': { name: 'Egg', cookTime: 3, image: '/assets/ingredients/egg.png' }
+  'meat': { name: 'Meat', cookTime: 5, image: imgMeat },
+  'tomato': { name: 'Tomato', cookTime: 2, image: imgTomato },
+  'bread': { name: 'Bread', cookTime: 0, image: imgBread },
+  'lettuce': { name: 'Lettuce', cookTime: 0, image: imgLettuce },
+  'cheese': { name: 'Cheese', cookTime: 0, image: imgCheese },
+  'onion': { name: 'Onion', cookTime: 2, image: imgOnion },
+  'pickles': { name: 'Pickles', cookTime: 0, image: imgPickles },
+  'egg': { name: 'Egg', cookTime: 3, image: imgEgg }
 };
 
 export const RECIPES: Record<string, Recipe> = {
@@ -78,40 +113,45 @@ export const RECIPES: Record<string, Recipe> = {
     name: 'Burger',
     ingredients: ['bread', 'meat', 'bread'],
     score: 100,
-    image: '/assets/recipes/recipe_burger.png' },
+    image: imgRecipeBurger
+  },
   'cheeseburger': {
     id: 'cheeseburger',
     name: 'Cheese Burger',
     ingredients: ['bread', 'meat', 'cheese', 'bread'],
     score: 150,
-    image: '/assets/ingredients/recipe_cheeseburger.png' },
+    image: imgRecipeCheeseburger 
+  },
   'salad': {
     id: 'salad',
     name: 'Salad',
     ingredients: ['tomato', 'lettuce'],
     score: 80,
-    image: '/assets/recipes/recipe_salad.png' },
+    image: imgRecipeSalad 
+  },
   'egg_sandwich': {
     id: 'egg_sandwich',
     name: 'Egg Sandwich',
     ingredients: ['bread', 'egg', 'bread'],
     score: 110,
-    image: '/assets/recipes/sandwich.png' },
+    image: imgRecipeEggSandwich 
+  },
   'deluxe_burger': {
     id: 'deluxe_burger',
     name: 'Deluxe Burger',
     ingredients: ['bread', 'meat', 'cheese', 'lettuce', 'tomato', 'bread'],
     score: 250,
-    image: '/assets/recipes/recipe_deluxe_burger.png' }
+    image: imgRecipeDeluxeBurger 
+  }
 };
 
 export const CUSTOMER_IMAGES = [
-  '/assets/customers/customer_1.png',
-  '/assets/customers/customer_2.png',
-  '/assets/customers/customer_3.png',
-  '/assets/customers/customer_4.png',
-  '/assets/customers/customer_5.png',
-  '/assets/customers/customer_6.png'
+  imgCustomer1,
+  imgCustomer2,
+  imgCustomer3,
+  imgCustomer4,
+  imgCustomer5,
+  imgCustomer6
 ];
 
 export const CUSTOMER_COLORS = [
@@ -122,7 +162,6 @@ export const CUSTOMER_COLORS = [
   '#FFEEAD', // Yellow
   '#D4A5A5'  // Pink
 ];
-
 
 export const LEVELS: LevelConfig[] = [
   ...Array.from({ length: 20 }, (_, i) => {
