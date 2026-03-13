@@ -493,27 +493,33 @@ export default function App() {
                       className="flex flex-col items-center gap-2 cursor-pointer"
                       onClick={() => serveCustomer(slot)}
                     >
-                      {/* Order Bubble */}
-                      <div className="order-bubble mb-2 translate-y-[40%] scale-95">
-                        <div className="flex flex-col items-center gap-1">
-                          <div className="relative w-12 h-12 flex items-center justify-center">
-                            {/* 此处的图片来源于 RECIPES 对象，必须在 types.ts 里面也用 import 处理 */}
-                            <img 
-                              src={RECIPES[customer.order!.recipeId].image} 
-                              alt=""
-                              className="w-full h-full object-contain relative z-10 drop-shadow-[0_6px_6px_rgba(0,0,0,0.28)]"
-                              referrerPolicy="no-referrer"
-                              onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
-                            />
-                          </div>
-                          <div className="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden">
-                            <motion.div 
-                              className={`h-full ${customer.patience > 50 ? 'bg-emerald-500' : customer.patience > 25 ? 'bg-amber-500' : 'bg-red-500'}`}
-                              animate={{ width: `${customer.patience}%` }}
-                            />
-                          </div>
-                        </div>
-                      </div>
+{/* Order Bubble */}
+<div className="absolute bottom-[310px] left-1/2 -translate-x-1/2 z-30 order-bubble scale-95">
+  <div className="flex flex-col items-center gap-1">
+    {/* 气泡背景容器 */}
+    <div className="relative w-14 h-14 flex items-center justify-center bg-white/95 rounded-full p-2 shadow-xl border-2 border-stone-100">
+      <img 
+        src={RECIPES[customer.order!.recipeId].image} 
+        alt=""
+        className="w-full h-full object-contain relative z-10 drop-shadow-md"
+        referrerPolicy="no-referrer"
+        onError={(e) => { (e.currentTarget as HTMLImageElement).src = plateImage; }}
+      />
+      
+      {/* 像素风装饰：对话框小尖角 */}
+      <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/95 rotate-45 border-r-2 border-b-2 border-stone-100 z-0"></div>
+    </div>
+
+    {/* 耐心进度条 */}
+    <div className="w-12 h-2 bg-stone-200 rounded-full overflow-hidden shadow-inner border border-stone-300">
+      <motion.div 
+        className={`h-full ${customer.patience > 50 ? 'bg-emerald-500' : customer.patience > 25 ? 'bg-amber-500' : 'bg-red-500'}`}
+        animate={{ width: `${customer.patience}%` }}
+        transition={{ type: 'spring', damping: 20 }}
+      />
+    </div>
+  </div>
+</div>
                       {/* Customer Avatar */}
                       <div className="w-[210px] h-[210px] relative flex items-end justify-center overflow-visible translate-y-[120%]">
                         {/* 来源于 CUSTOMER_IMAGES 对象，需在 types.ts 导入 */}
