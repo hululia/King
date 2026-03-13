@@ -492,12 +492,12 @@ export default function App() {
                       className="flex flex-col items-center pointer-events-auto"
                       onClick={() => serveCustomer(slot)}
                     >
-                      {/* Bubble (z-40, 最顶层) - bottom: 75% (相对于容器) */}
+                      {/* Bubble (z-40, 最顶层) - bottom: 78% (相对于容器) */}
                       {/* 这里通过 absolute 定位确保它脱离 customer 容器显示在最上方 */}
-                      <div className="absolute bottom-[75%] left-1/2 -translate-x-1/2 z-40 mb-4">
-                        <div className="order-bubble scale-95">
+                      <div className="absolute bottom-[79%] left-1/2 -translate-x-1/2 z-40 mb-4">
+                        <div className="order-bubble scale-90">
                           <div className="flex flex-col items-center gap-1">
-                            <div className="relative w-12 h-12 flex items-center justify-center">
+                            <div className="relative w-10 h-10 flex items-center justify-center">
                               <img 
                                 src={RECIPES[customer.order!.recipeId].image} 
                                 alt=""
